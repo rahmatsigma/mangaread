@@ -4,11 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:manga_read/features/auth/logic/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth;
   late StreamSubscription<User?> _userSubscription;
 
-  AuthCubit() : super(const AuthState()) {
-    // Panggil init untuk mulai mendengarkan
+  AuthCubit({FirebaseAuth? auth}) 
+      : _auth = auth ?? FirebaseAuth.instance, 
+        super(const AuthState()) {
     init();
   }
 

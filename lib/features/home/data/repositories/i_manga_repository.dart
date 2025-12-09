@@ -9,4 +9,7 @@ abstract class IMangaRepository {
   Future<Either<Failure, MangaList>> searchManga({required String query});
   Future<Either<Failure, Manga>> getMangaDetail({required String id});
   Future<Either<Failure, List<String>>> getChapterImages({required String chapterId});
+  Future<bool> isMangaFavorite(String uid, String mangaId);
+  Future<void> toggleFavorite(String uid, Manga manga, bool isCurrentlyFavorite);
+  Future<void> addToHistory(String uid, Manga manga, String chapterTitle, String chapterId);
 }

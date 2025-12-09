@@ -7,8 +7,13 @@ import 'package:manga_read/models/manga.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Wajib ada buat Database
 
 class MangaRepositoryImpl implements IMangaRepository {
-  final Dio dio = DioClient().dio;
-  Future<bool> isMangaFavorite(String uid, String mangaId) async {
+  final Dio dio;
+
+  MangaRepositoryImpl({Dio? dioInstance}) 
+      : dio = dioInstance ?? DioClient().dio;
+
+  @override 
+  Future<bool> isMangaFavorite(String uid, String mangaId) async { 
     try {
       final doc = await FirebaseFirestore.instance
           .collection('users')
@@ -16,6 +21,7 @@ class MangaRepositoryImpl implements IMangaRepository {
           .collection('favorites')
           .doc(mangaId)
           .get();
+
       return doc.exists;
     } catch (e) {
       print("Error cek favorite: $e");
@@ -23,7 +29,7 @@ class MangaRepositoryImpl implements IMangaRepository {
     }
   }
 
-  // 2. Tambah atau Hapus Favorite (Toggle)
+  @override
   Future<void> toggleFavorite(
     String uid,
     Manga manga,
@@ -50,7 +56,7 @@ class MangaRepositoryImpl implements IMangaRepository {
     }
   }
 
-  // 3. Simpan History Baca
+  @override
   Future<void> addToHistory(
     String uid,
     Manga manga,
